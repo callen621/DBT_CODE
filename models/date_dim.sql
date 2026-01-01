@@ -20,10 +20,6 @@ CASE WHEN MONTH(TO_TIMESTAMP(STARTED_AT)) IN (12,1,2)
     ELSE 'AUTUMN'
     END AS SEASON_OF_YEAR
 
-
-
-
-
 FROM 
 {{ source('DEMO', 'BIKE') }}
 WHERE STARTED_AT != 'started_at'
