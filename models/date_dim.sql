@@ -1,4 +1,3 @@
-{{ config(materialized='table') }}
 
 
 WITH CTE AS (
@@ -22,7 +21,9 @@ CASE WHEN MONTH(TO_TIMESTAMP(STARTED_AT)) IN (12,1,2)
     THEN 'SUMMER'
     ELSE 'AUTUMN'
     END AS SEASON_OF_YEAR
+ 
 
+{{ function1('STARTED_AT')}}
 FROM 
 {{ source('DEMO', 'BIKE') }}
 WHERE STARTED_AT != 'started_at'
