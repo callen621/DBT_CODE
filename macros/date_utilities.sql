@@ -11,3 +11,11 @@ CASE WHEN MONTH(TO_TIMESTAMP({{x}})) IN (12,1,2)
     END
 
 {% endmacro %}
+
+{% macro date_type(x) %}
+CASE
+WHEN DAYNAME(TO_TIMESTAMP(STARTED_AT)) IN ('Sat', 'Sun')
+THEN 'WEEKEND'
+ELSE'BUSINESSDAY'
+END
+{% endmacro %}

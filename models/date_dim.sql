@@ -3,23 +3,17 @@
 WITH CTE AS (
 
 SELECT
-
 TO_TIMESTAMP(STARTED_AT) AS START_TIME,
-DATE(TO_TIMESTAMP(STARTED_AT)) AS STARTED,
+DATE(TO_TIMESTAMP(STARTED_AT)) AS Start_Date,
 HOUR(TO_TIMESTAMP(STARTED_AT)) AS HOUR_STARTED,
-CASE
-WHEN DAYNAME(TO_TIMESTAMP(STARTED_AT)) IN ('Sat', 'Sun')
-THEN 'WEEKEND'
-ELSE'BUSINESSDAY'
-END AS DAY_TYPE,
 
-{{ my_new_project.get_season('STARTED_AT') }} AS SEASON_OF_YEAR
- 
+{{ my_new_project.get_season('STARTED_AT') }} AS SEASON_OF_YEAR,  -- calling the macro when there is more than 1 a common between is required.
+{{ my_new_project.date_type('STARTED_AT')}} AS DAY_TYPE 
+
 FROM 
 {{ source('DEMO', 'BIKE') }}
 WHERE STARTED_AT != 'started_at'
 
 
 )
-
-select * from CTE
+SELECT * FROM CTE     --requred by dbt or you get an error
