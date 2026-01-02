@@ -13,13 +13,13 @@ THEN 'WEEKEND'
 ELSE'BUSINESSDAY'
 END AS DAY_TYPE,
 
-{{(get_season('STARTED_AT'))}} AS SEASON_OF_YEAR
+{{get_season('STARTED_AT')}} AS SEASON_OF_YEAR
  
 FROM 
 {{ source('DEMO', 'BIKE') }}
 WHERE STARTED_AT != 'started_at'
 
-)
 
+)
 
 select * from CTE
