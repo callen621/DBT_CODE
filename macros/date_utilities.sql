@@ -19,3 +19,4 @@ THEN 'WEEKEND'
 ELSE'BUSINESSDAY'
 END
 {% endmacro %}
+
