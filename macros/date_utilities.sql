@@ -11,7 +11,7 @@
 
 {% macro date_type(date_column) %}
     CASE
-        WHEN DAYNAME({{ date_column }}) IN ('Sat', 'Sun') THEN 'WEEKEND'
+        WHEN DAYOFWEEK({{ date_column }}) IN (1, 7) THEN 'WEEKEND'
         ELSE 'BUSINESSDAY'
     END
 {% endmacro %}
