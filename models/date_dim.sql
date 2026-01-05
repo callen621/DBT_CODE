@@ -1,19 +1,14 @@
-
-
-WITH CTE AS (
-
-SELECT
-TO_TIMESTAMP(STARTED_AT) AS START_TIME,
-DATE(TO_TIMESTAMP(STARTED_AT)) AS Start_Date,
-HOUR(TO_TIMESTAMP(STARTED_AT)) AS HOUR_STARTED,
-
-{{ my_new_project.get_season('STARTED_AT') }} AS SEASON_OF_YEAR,  -- calling the macro when there is more than 1 a common between is required.
-{{ my_new_project.date_type('STARTED_AT')}} AS DAY_TYPE 
-
-FROM 
-{{ source('DEMO', 'BIKE') }}
-WHERE STARTED_AT != 'started_at'
-
-
+-- models/date_dim.sql
+WITH bike_data AS (
+    SELECT 
+        TO_TIMESTAMP(started_at) as started_at_ts,
+        started_at
+    FROM {{ source('DEMO', 'BIKE') }}
+    WHERE started_at IS NOT NULL
 )
-SELECT * FROM CTE     --requred by dbt or you get an error
+SELECT
+    started_at,
+    started_at_ts,
+    {{ get_season('started_at_ts') }} as season,
+    {{ date_type('started_at_ts') }} as day_type
+FROM bike_data;
