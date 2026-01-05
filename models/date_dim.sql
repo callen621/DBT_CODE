@@ -1,13 +1,13 @@
 -- models/date_dim.sql
 WITH bike_data AS (
     SELECT 
-        TO_TIMESTAMP(started_at) as started_at_ts,
-        started_at
+        TO_TIMESTAMP(STARTED_AT) as started_at_ts,
+        STARTED_AT
     FROM {{ source('DEMO', 'BIKE') }}
-    WHERE started_at IS NOT NULL
+    WHERE STARTED_AT IS NOT NULL
 )
 SELECT
-    started_at,
+    STARTED_AT,
     started_at_ts,
     {{ get_season('started_at_ts') }} as season,
     {{ date_type('started_at_ts') }} as day_type
