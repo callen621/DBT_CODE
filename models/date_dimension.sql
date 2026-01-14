@@ -1,0 +1,21 @@
+WITH CTE AS (
+    SELECT
+        
+        TO_TIMESTAMP(STARTED_AT) AS STARTED_AT,
+        DATE(TO_TIMESTAMP(STARTED_AT)) AS DATE_STARTED_AT,
+        HOUR(TO_TIMESTAMP(STARTED_AT)) AS HOUR_STARTED_AT,
+        DAYNAME(TO_TIMESTAMP(STARTED_AT)), 
+        CASE
+        WHEN DAYNAME(TO_TIMESTAMP(STARTED_AT)) IN ('Sat', 'Sun')
+        THEN 'WEEKEND'
+        ELSE 'BUSINESSDAY'
+        END AS DAY_TYPE,
+
+        MONTH(TO_TIMESTAMP(STARTED_AT)) AS MONTH_STARTED_AT
+    FROM
+        {{ source('DEMO', 'bike') }}
+        where STARTED_AT != 'started_at'
+)
+SELECT 
+    * 
+FROM CTE
