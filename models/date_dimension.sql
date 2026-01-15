@@ -4,12 +4,9 @@ WITH CTE AS (
         DATE(TO_TIMESTAMP(STARTED_AT)) AS DATE_STARTED_AT,
         HOUR(TO_TIMESTAMP(STARTED_AT)) AS HOUR_STARTED_AT,
         DAYNAME(TO_TIMESTAMP(STARTED_AT)) AS DAY_NAME, 
-        CASE
-            WHEN DAYNAME(TO_TIMESTAMP(STARTED_AT)) IN ('Sat', 'Sun')
-            THEN 'WEEKEND'
-            ELSE 'BUSINESSDAY'
-        END AS DAY_TYPE,
-        {{ season('STARTED_AT') }} AS TIME_PERIOD  -- Add alias here
+        {{day_type('STARTED_AT')}} AS DAY_TYPE,
+
+        {{ season('STARTED_AT') }} AS SEASON_OF_YEAR
 
     FROM
         {{ source('DEMO', 'bike') }}
